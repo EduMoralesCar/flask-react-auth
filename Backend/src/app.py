@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from flask_cors import CORS
+import re
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost/python_flask_db"
@@ -9,6 +10,7 @@ CORS(app)
 mongo = PyMongo(app)
 
 db = mongo.db.users
+
 
 # Creamos la ruta de prueba
 @app.route('/users', methods=['POST'])
@@ -22,15 +24,47 @@ def createUser():
     result = db.insert_one(user)
     return {'message': 'User created', 'id': str(result.inserted_id)}, 201
 
+
 # Obtener todos los usuarios
 @app.route('/users', methods=['GET'])
 def getUsers():
-    return 'received'
+    users = []
+    for user in db.find():
+        users.append({
+            'id': str(user['_id']),
+            'name': user['name'],
+            'email': user['email'],
+            'password': user['password']
+        })
+    return {'users': users}, 200
+
 
 # Obtener un usuario por ID
-@app.route('/user/<id>', methods=['GET'])
+@app.route('/users/<id>', methods=['GET'])
 def getUser(id):
-    return 'received'
+    user = db.find_one({"_id": ObjectId(id)})
+    if user:
+        return {
+            'id': str(user['_id']),
+            'name': user['name'],
+            'email': user['email'],
+            'password': user['password']
+        }, 200
+    return {'message': 'User not found'}, 404
+
+# Obtener un usuario por Nombre (case insensitive)
+@app.route('/user-name/<name>', methods=['GET'])
+def getUserByName(name):
+    pattern = f'^{re.escape(name)}$'
+    user = db.find_one({"name": {"$regex": pattern, "$options": "i"}})
+    if user:
+        return {
+            'id': str(user['_id']),
+            'name': user['name'],
+            'email': user['email'],
+            'password': user['password']
+        }, 200
+    return {'message': 'User not found'}, 404
 
 
 # Eliminar un usuario
