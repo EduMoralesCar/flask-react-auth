@@ -6,6 +6,8 @@ import re
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost/python_flask_db"
+
+# Habilitar CORS
 CORS(app)
 mongo = PyMongo(app)
 
@@ -87,4 +89,4 @@ def updateUser(id):
 
 # Inicialización de la BD
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
