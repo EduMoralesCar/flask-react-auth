@@ -6,6 +6,8 @@ import re
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost/python_flask_db"
+
+# Habilitar CORS
 CORS(app)
 mongo = PyMongo(app)
 
@@ -70,14 +72,21 @@ def getUserByName(name):
 # Eliminar un usuario
 @app.route('/users/<id>', methods=['DELETE'])
 def deleteUser(id):
-    return 'received'
+    result = db.delete_one({"_id": ObjectId(id)})
+    if result.deleted_count > 0:
+        return {'message': 'User deleted'}, 200
+    return {'message': 'User not found'}, 404
 
 # Actualizar un usuario
 @app.route('/users/<id>', methods=['PUT'])
 def updateUser(id):
-    return 'received'
+    data = request.get_json(silent=True) or {}
+    result = db.update_one({"_id": ObjectId(id)}, {"$set": data})
+    if result.modified_count > 0:
+        return {'message': 'User updated'}, 200
+    return {'message': 'User not found'}, 404
 
 
 # Inicialización de la BD
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
