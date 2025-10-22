@@ -5,7 +5,7 @@ function Navbar() {
         <nav className="navbar navbar-expand-lg navbar-dark shadow fixed-top" style={{ background: 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)' }}>
             <div className="container-fluid">
                 <Link className="navbar-brand fw-bold fs-4" to="/">
-                    <span style={{ fontSize: '1.8rem' }}>🏠</span>
+                    <span style={{ fontSize: '1.8rem' }}><i className="bi bi-house-fill"></i></span>
                 </Link>
                 <button
                     className="navbar-toggler"
@@ -22,20 +22,20 @@ function Navbar() {
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
                             <Link className="nav-link fw-bold fs-5 px-3 hover-link text-white" to="/about">
-                                ℹ️ About
+                                <i className="bi bi-info-circle-fill"></i> About
                             </Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link fw-bold fs-5 px-3 hover-link text-white" to="/users">
-                                👥 Users
+                                <i className="bi bi-people-fill"></i> Users
                             </Link>
                         </li>
                     </ul>
                     <form className="d-flex" role="search">
                         <input
-                            className="form-control me-2"
+                            className="form-control me-2 search-input"
                             type="search"
-                            placeholder="🔍 Buscar..."
+                            placeholder="Buscar..."
                             aria-label="Search"
                             style={{ borderRadius: '25px', padding: '10px 20px', border: '2px solid #fff' }}
                         />
