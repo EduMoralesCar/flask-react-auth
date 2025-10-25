@@ -380,3 +380,43 @@
     max-height: 36px;
   }
 }
+
+
+/* ...existing code... */
+
+/* Avatar circular con zoom on hover */
+.hero-avatar {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: inline-block;
+  transition: transform .35s ease, box-shadow .35s ease;
+  transform-origin: center center;
+  box-shadow: 0 12px 30px rgba(16, 42, 80, 0.12);
+  cursor: zoom-in;
+}
+
+/* Efecto al acercar el cursor (zoom) */
+.hero-avatar:hover,
+.hero-avatar:focus {
+  transform: scale(1.08);
+  box-shadow: 0 20px 40px rgba(16, 42, 80, 0.18);
+  animation-play-state: paused !important;
+  transform: scale(1.12) !important;
+  /* zoom deseado */
+  outline: none;
+}
+
+/* Click/active ligero */
+.hero-avatar:active {
+  transform: scale(1.02);
+}
+
+/* Ajustes responsivos */
+@media (max-width: 992px) {
+  .hero-avatar {
+    width: 200px;
+    height: 200px;
+  }
+}

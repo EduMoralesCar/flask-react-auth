@@ -43,7 +43,7 @@ function Navbar() {
                 <div className="logo-block ms-auto d-flex align-items-center justify-content-end">
                     {/* Puedes cambiar el texto por una imagen: <img src="..." alt="EDOMOCAR" /> */}
                     <Link to="/" className="navbar-brand fw-bold text-white mb-0 d-flex align-items-center" style={{ letterSpacing: '.6px' }}>
-                        <img src="./public/EDOMOCAR.png" alt="EDOMOCAR" className="brand-logo" />
+                        <img src="/EDOMOCAR.png" alt="EDOMOCAR" className="brand-logo" />
                     </Link>
                 </div>
             </div>

@@ -59,11 +59,9 @@ function Home() {
 
                 <div className="col-12 col-lg-5 text-center">
                     <img
-                        src="https://cdn.jsdelivr.net/gh/tabler/tabler-icons@2.47.0/icons/users.svg"
+                        src="/EduMoralesCar.png"
                         alt="users"
-                        className="hero-img"
-                        width="220"
-                        height="220"
+                        className="hero-img hero-avatar"
                         onError={(e) => { e.currentTarget.src = "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/people-fill.svg"; }}
                     />
                 </div>
