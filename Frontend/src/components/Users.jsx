@@ -7,6 +7,8 @@ function Users() {
     const [password, setPassword] = useState("");
     const [users, setUsers] = useState([]);
     const [showPassword, setShowPassword] = useState(false); // ← nuevo
+    const [editingId, setEditingId] = useState(null); // ← nuevo: id del usuario que estamos editando
+
 
 
     // Cargar usuarios al montar el componente
@@ -16,12 +18,18 @@ function Users() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        fetch(import.meta.env.VITE_API_URL, {
-            method: "POST",
+        const payload = { name, email, password };
+
+        // Si editingId está presente, actualizamos; si no, creamos nuevo
+        const url = editingId ? `${import.meta.env.VITE_API_URL}/${editingId}` : import.meta.env.VITE_API_URL;
+        const method = editingId ? "PUT" : "POST";
+
+        fetch(url, {
+            method,
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ name, email, password })
+            body: JSON.stringify(payload)
         })
             .then(response => {
                 if (!response.ok) {
@@ -30,17 +38,18 @@ function Users() {
                 return response.json();
             })
             .then(data => {
-                console.log("Usuario agregado:", data);
-                alert("Usuario agregado exitosamente");
+                console.log("Usuario guardado:", data);
+                // limpiar formulario y estado de edición
                 setName("");
                 setEmail("");
                 setPassword("");
-                // Recargar la lista de usuarios
+                setEditingId(null);
+                // refrescar lista
                 getUsers();
             })
             .catch(error => {
-                console.error("Error al agregar usuario:", error);
-                alert("Error al agregar usuario: " + error.message);
+                console.error("Error al guardar usuario:", error);
+                alert("Error al guardar usuario: " + error.message);
             });
     };
 
@@ -60,6 +69,42 @@ function Users() {
             .catch(error => {
                 console.error("Error al obtener usuarios:", error);
             });
+    };
+
+    // Función para eliminar un usuario (añadir aquí, después de getUsers)
+    const deleteUser = (id) => {
+        if (!id) return;
+        // const confirmed = window.confirm("¿Eliminar usuario? Esta acción no se puede deshacer.");
+        // if (!confirmed) return;
+
+        fetch(`${import.meta.env.VITE_API_URL}/${id}`, {
+            method: "DELETE",
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(() => {
+                // Actualiza la UI eliminando el usuario sin volver a pedir toda la lista
+                setUsers(prev => prev.filter(u => (u.id ?? u._id) !== id));
+            })
+            .catch(error => {
+                console.error("Error al eliminar usuario:", error);
+                alert("Error al eliminar usuario: " + (error.message || "Desconocido"));
+            });
+    };
+
+    // Iniciar edición: rellenar formulario con los datos del usuario seleccionado
+    const startEdit = (id) => {
+        const u = users.find(x => (x.id ?? x._id) === id);
+        if (!u) return alert("Usuario no encontrado");
+        setName(u.name || "");
+        setEmail(u.email || "");
+        setPassword(u.password || "");
+        setEditingId(id);
+        window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     return (
@@ -185,8 +230,20 @@ function Users() {
                                                             <td className="text-end">
                                                                 {/* Acciones con ancho uniforme y separación */}
                                                                 <div className="d-inline-flex gap-2 actions-cell">
-                                                                    <button type="button" className="btn btn-warning btn-sm btn-action">Editar</button>
-                                                                    <button type="button" className="btn btn-danger btn-sm btn-action">Eliminar</button>
+                                                                    <button
+                                                                        type="button"
+                                                                        className="btn btn-warning btn-sm btn-action"
+                                                                        onClick={() => startEdit(user.id ?? user._id)}
+                                                                    >
+                                                                        Editar
+                                                                    </button>
+                                                                    <button
+                                                                        type="button"
+                                                                        className="btn btn-danger btn-sm btn-action"
+                                                                        onClick={() => deleteUser(user.id ?? user._id)}
+                                                                    >
+                                                                        Eliminar
+                                                                    </button>
                                                                 </div>
                                                             </td>
                                                         </tr>

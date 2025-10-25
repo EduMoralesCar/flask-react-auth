@@ -34,3 +34,12 @@ python -m pip install flask flask-pymongo flask-cors
 # Flask-PyMongo: Proporciona una forma sencilla de interactuar con MongoDB desde Flask.
 # Flask-Cors: Habilita el soporte para CORS (Cross-Origin Resource Sharing) en aplicaciones Flask.
 ```
+
+# Levantar el Servidor
+
+```bash
+# desde la ruta Backend/src
+python app.py
+# Tambien desde la ruta Backend puedes usar el comando
+python src/app.py
+```

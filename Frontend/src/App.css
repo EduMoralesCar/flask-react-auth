@@ -334,3 +334,89 @@
     padding: 18px;
   }
 }
+
+
+/* Ajuste de anchos para centrar nav y dar espacio al logo */
+.nav-center {
+  flex: 0 0 60%;
+  max-width: 60%;
+}
+
+
+/* ...existing code... */
+
+/* Ajustes del logo en la navbar */
+.brand-logo {
+  display: block;
+  width: auto;
+  max-height: 44px;
+  /* altura por defecto en pantallas pequeñas/medianas */
+  object-fit: contain;
+}
+
+/* Más grande en pantallas grandes */
+@media (min-width: 992px) {
+  .brand-logo {
+    max-height: 56px;
+  }
+}
+
+/* Si quieres texto junto al logo, ajusta espacio */
+.navbar-brand {
+  gap: 8px;
+  align-items: center;
+  display: inline-flex;
+}
+
+/* Asegura que el contenedor del logo no crezca demasiado */
+.logo-block {
+  max-width: 40%;
+  min-width: 160px;
+}
+
+/* En móviles, reduce el logo */
+@media (max-width: 575px) {
+  .brand-logo {
+    max-height: 36px;
+  }
+}
+
+
+/* ...existing code... */
+
+/* Avatar circular con zoom on hover */
+.hero-avatar {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: inline-block;
+  transition: transform .35s ease, box-shadow .35s ease;
+  transform-origin: center center;
+  box-shadow: 0 12px 30px rgba(16, 42, 80, 0.12);
+  cursor: zoom-in;
+}
+
+/* Efecto al acercar el cursor (zoom) */
+.hero-avatar:hover,
+.hero-avatar:focus {
+  transform: scale(1.08);
+  box-shadow: 0 20px 40px rgba(16, 42, 80, 0.18);
+  animation-play-state: paused !important;
+  transform: scale(1.12) !important;
+  /* zoom deseado */
+  outline: none;
+}
+
+/* Click/active ligero */
+.hero-avatar:active {
+  transform: scale(1.02);
+}
+
+/* Ajustes responsivos */
+@media (max-width: 992px) {
+  .hero-avatar {
+    width: 200px;
+    height: 200px;
+  }
+}
