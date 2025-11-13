@@ -1,4 +1,4 @@
-# 🚀 flask-react-auth
+# <p align="center">🚀 Flask React Auth</p>
 
 ![Typing](https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=22&pause=1000&color=2F80ED&center=true&width=800&lines=Full-stack+CRUD+con+Flask+%7C+React+%7C+MongoDB)
 
